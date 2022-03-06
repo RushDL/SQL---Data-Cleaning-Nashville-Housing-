@@ -19,8 +19,8 @@ FROM PortfolioProject.dbo.NashvilleHousing
 -- To do:
 -- 1. Make sure Variables in columns 'LandUse' and 'SolidAsVacant' are consistent. 
 -- 2. Populate Property address
--- 3. Create new columns for 'address' and 'City' using the 'PropertyAddress' column.
--- 4. Create new columns for 'PostalID', 'City' and 'address' using the 'PropertyAddress' column.
+-- 3. Create new columns for 'address' and 'city' using the 'PropertyAddress' column.
+-- 4. Create new columns for 'address', 'city' and 'state' using the 'OwnerAddress' column.
 -- 5. Change the datatype of 'SalesDate' from datetime to date only.
 -- 6. Remove Duplicates
 -- 7. Drop Unused Columns
@@ -137,7 +137,7 @@ WHERE a.PropertyAddress IS NULL
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
--- 3. Create new columns for 'PostalID', 'Street' and 'City' using the 'PropertyAddress' column.
+-- 3. Create new columns for 'address' and 'city' using the 'PropertyAddress' column.
 
 
 SELECT PropertyAddress
@@ -172,13 +172,13 @@ SET PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',',PropertyAddress
 
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
--- 4. Create new columns for 'PostalID', 'City' and 'address' using the 'PropertyAddress' column.
+-- 4. Create new columns for 'address', 'city' and 'state' using the 'OwnerAddress' column.
 ----- Parsname help us parse the owneraddress using delimiters. But the only delimtter that it recognizes is a dot(.). So we will replace those comma's with a dot.
 
 
 SELECT
 	OwnerAddress,
-	PARSENAME(REPLACE(Owneraddress,',', '.'), 3) AS OwnerSplitAddress, --
+	PARSENAME(REPLACE(Owneraddress,',', '.'), 3) AS OwnerSplitAddress, 
 	PARSENAME(REPLACE(Owneraddress,',', '.'), 2) AS OwnerSplitCity,
 	PARSENAME(REPLACE(Owneraddress,',', '.'), 1) AS OwnerSplitState
 FROM PortfolioProject.dbo.NashvilleHousing
